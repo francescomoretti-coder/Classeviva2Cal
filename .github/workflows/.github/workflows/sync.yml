@@ -1,0 +1,33 @@
+name: ClasseViva Calendar Sync
+
+on:
+  schedule:
+    # Esegue la sincronizzazione automatica ogni giorno alle 06:00 e alle 18:00
+    - cron: '0 6,18 * * *'
+  workflow_dispatch: # Permette di avviare la sincronizzazione manuale
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build --if-present
+
+      - name: Run sync script
+        env:
+          CLASSEVIVA_USERNAME: ${{ secrets.CLASSEVIVA_USERNAME }}
+          CLASSEVIVA_PASSWORD: ${{ secrets.CLASSEVIVA_PASSWORD }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: npm start
