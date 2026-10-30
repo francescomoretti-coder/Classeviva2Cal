@@ -18,6 +18,12 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Create credentials.json
+        run: |
+          echo '$GOOGLE_CREDENTIALS' > credentials.json
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
       - name: Install dependencies
         run: bun install
 
@@ -25,5 +31,4 @@ jobs:
         env:
           CLASSEVIVA_USERNAME: ${{ secrets.CLASSEVIVA_USERNAME }}
           CLASSEVIVA_PASSWORD: ${{ secrets.CLASSEVIVA_PASSWORD }}
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: bun run index.ts
