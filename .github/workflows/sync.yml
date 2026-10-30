@@ -11,22 +11,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '18'
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build --if-present
+        run: bun install
 
       - name: Run sync script
         env:
           CLASSEVIVA_USERNAME: ${{ secrets.CLASSEVIVA_USERNAME }}
           CLASSEVIVA_PASSWORD: ${{ secrets.CLASSEVIVA_PASSWORD }}
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        run: npm start
+        run: bun run index.ts
