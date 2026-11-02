@@ -27,6 +27,14 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Test credenziali
+        env:
+          CLASSEVIVA_USERNAME: ${{ secrets.CLASSEVIVA_USERNAME }}
+          CLASSEVIVA_PASSWORD: ${{ secrets.CLASSEVIVA_PASSWORD }}
+        run: |
+          echo "Lunghezza Username: ${#CLASSEVIVA_USERNAME}"
+          echo "Lunghezza Password: ${#CLASSEVIVA_PASSWORD}"
+
       - name: Run sync script
         env:
           CLASSEVIVA_USERNAME: ${{ secrets.CLASSEVIVA_USERNAME }}
